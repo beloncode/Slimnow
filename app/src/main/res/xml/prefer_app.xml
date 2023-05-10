@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="Emulator"
+        app:iconSpaceReserved="false"
+        >
+        <Preference
+            android:title="@string/prefer_view_root"
+            android:summary="@string/prefer_view_root_summary"
+            android:key="app_key_view_root"
+            app:iconSpaceReserved="false"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

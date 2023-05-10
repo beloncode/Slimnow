@@ -1,11 +1,13 @@
 package com.emu.slimnow
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.emu.slimnow.databinding.ActivityMainBinding
+import com.emu.slimnow.prefer.SettingsActivity
 import com.emu.slimnow.ui.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,20 +15,30 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private fun replaceFragmentView(menuNaviItem: MenuItem) {
-        var layoutFragment: Fragment? = null
-        when (menuNaviItem.itemId) {
-            R.id.romSection -> layoutFragment = RomSelectionFragment.getInstance()
-            R.id.saveManager -> layoutFragment = SaveManagerFragment.getInstance()
-            R.id.gallery -> layoutFragment = GalleryFragment.getInstance()
-            R.id.logMessages -> layoutFragment = LogFragment.getInstance()
+        val layoutFragment: Any = when (menuNaviItem.itemId) {
+            R.id.romSection -> RomSelectionFragment.getInstance()
+            R.id.saveManager -> SaveManagerFragment.getInstance()
+            R.id.gallery -> GalleryFragment.getInstance()
+            R.id.logMessages -> LogFragment.getInstance()
+            else -> { }
         }
 
-        layoutFragment?.let {
+        layoutFragment.let {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentFactory, it)
+                .replace(R.id.fragmentFactory, it as Fragment)
                 .commit()
         }
 
+    }
+
+    private fun changeActivity(menuTopItem: MenuItem) {
+        val selectedActivity: Any = when (menuTopItem.itemId) {
+            R.id.settings -> { SettingsActivity::class.java }
+            else -> { }
+        }
+
+        val activityIntent = Intent(this, selectedActivity as Class<*>)
+        activityIntent.apply { startActivity(activityIntent) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +55,13 @@ class MainActivity : AppCompatActivity() {
         binding.navi.setOnItemSelectedListener { selected ->
             replaceFragmentView(selected)
             true
+        }
+
+        binding.mainToolbar.apply {
+            setOnMenuItemClickListener { buttonSelected ->
+                changeActivity(buttonSelected)
+                true
+            }
         }
 
     }

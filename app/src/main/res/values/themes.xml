@@ -32,6 +32,7 @@
     <style name="BaseAppTheme" parent="ColorAppTheme">
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+
     </style>
 
     <style name="Theme.SlimNow" parent="BaseAppTheme">

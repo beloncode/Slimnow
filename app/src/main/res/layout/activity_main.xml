@@ -8,9 +8,10 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:id="@+id/main_toolbar"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -18,7 +19,8 @@
         app:layout_constraintTop_toTopOf="parent"
 
         app:menu="@menu/top_items"
-        app:title="SlimNow" />
+        app:title="@string/main_top_slimnow"
+        />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentFactory"
@@ -27,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
         tools:layout="@layout/fragment_romselection" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
