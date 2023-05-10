@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/inputMethods"
+        android:title="@string/top_input_methods"
+        android:icon="@drawable/navi_round_sports_esports_24"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/settings"
+        android:title="@string/navi_settings"
+        android:icon="@drawable/top_round_settings_24"
+        app:showAsAction="ifRoom"
+        />
+
+</menu>

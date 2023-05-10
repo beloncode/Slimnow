@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/romSection"
+        android:title="@string/navi_selection"
+        android:icon="@drawable/navi_round_album_24"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/saveManager"
+        android:title="@string/navi_save_manager"
+        android:icon="@drawable/navi_round_save_as_24"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/gallery"
+        android:title="@string/navi_gallery"
+        android:icon="@drawable/navi_round_landscape_24"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/logMessages"
+        android:title="@string/navi_logs_and_status"
+        android:icon="@drawable/navi_round_logo_dev_24"
+        app:showAsAction="ifRoom" />
+
+</menu>

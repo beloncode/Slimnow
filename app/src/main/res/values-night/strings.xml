@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navi_selection">Selection</string>
+    <string name="navi_statics">Statics</string>
+    <string name="navi_settings">Settings</string>
+    <string name="navi_gallery">Gallery</string>
+    <string name="top_input_methods">Input Methods</string>
+    <string name="navi_save_manager">Save Manager</string>
+    <string name="navi_logs_and_status">Logs and Status</string>
+</resources>
