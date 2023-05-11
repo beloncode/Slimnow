@@ -11,6 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SlimNow.SplashScreen"
         >
+        <activity android:name=".SetupActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SlimNow.SplashScreen"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+
         <activity android:name=".prefer.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.SlimNow"
@@ -21,7 +28,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.SlimNow.SplashScreen"
+            android:theme="@style/Theme.SlimNow"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

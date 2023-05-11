@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MainActivityModel : ViewModel() {
+class SetupModel : ViewModel() {
     private val _loadingApp = MutableStateFlow(true)
     val isLoading = _loadingApp.asStateFlow()
 

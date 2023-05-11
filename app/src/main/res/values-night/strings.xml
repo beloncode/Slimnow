@@ -9,4 +9,9 @@
     <string name="navi_logs_and_status">Logs and Status</string>
     <string name="main_top_slimnow">SlimNow</string>
     <string name="settings_top_global_settings">Global Settings</string>
+    <string name="setup_app_icon_desc">App Icon</string>
+    <string name="setup_copyright">Copyright (C) SlimNow developers</string>
+    <string name="setup_welcome_message">Welcome to SlimNow emulator, a Sony Playstation 2 emulator written from scratch using Kotlin and C++ for armv8a devices</string>
+    <string name="setup_frame_tittle">Setup your emulator</string>
+    <string name="setup_button_next">Next</string>
 </resources>
