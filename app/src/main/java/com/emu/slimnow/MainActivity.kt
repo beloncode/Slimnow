@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeActivity(menuTopItem: MenuItem) {
         val selectedActivity: Any = when (menuTopItem.itemId) {
-            R.id.settings -> { SettingsActivity::class.java }
-            else -> { }
+            R.id.settings -> SettingsActivity::class.java
+            else -> {}
         }
 
         val activityIntent = Intent(this, selectedActivity as Class<*>)

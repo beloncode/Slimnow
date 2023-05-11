@@ -13,6 +13,7 @@
         >
         <activity android:name=".prefer.SettingsActivity"
             android:exported="false"
+            android:theme="@style/Theme.SlimNow"
             android:parentActivityName=".MainActivity">
 
         </activity>
