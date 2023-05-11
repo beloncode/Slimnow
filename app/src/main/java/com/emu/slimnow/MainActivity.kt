@@ -3,10 +3,13 @@ package com.emu.slimnow
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.emu.slimnow.databinding.ActivityMainBinding
+import com.emu.slimnow.model.MainActivityModel
 import com.emu.slimnow.prefer.SettingsActivity
 import com.emu.slimnow.ui.*
 
@@ -41,8 +44,17 @@ class MainActivity : AppCompatActivity() {
         activityIntent.apply { startActivity(activityIntent) }
     }
 
+    private val mainViewModel: MainActivityModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                mainViewModel.isLoading.value
+            }
+            //setOnExitAnimationListener {}
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
