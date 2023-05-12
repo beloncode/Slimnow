@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
+    id 'com.google.protobuf'
 }
 
 android {
@@ -40,6 +42,9 @@ android {
             proguardFiles getDefaultProguardFile(
                     'proguard-android-optimize.txt'),
                     'proguard-rules.pro'
+
+            // Must change later
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -58,6 +63,21 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    // Configuring the proto buffer from DataStore system
+    protobuf {
+        protoc {
+            artifact = 'com.google.protobuf:protoc:3.21.12'
+        }
+        // Generates the kotlin Protobuf-lite code for the Protobufs in this project
+        generateProtoTasks {
+            all().forEach { task ->
+                task.builtins {
+                    java { option 'lite' }
+                }
+            }
+        }
+    }
 }
 
 dependencies {
@@ -66,6 +86,14 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // Proton DataStore
+    implementation 'androidx.datastore:datastore:1.0.0'
+    implementation 'com.google.protobuf:protobuf-kotlin-lite:3.21.5'
+
+    // Extensions to handler flow lifecycles within view models
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
 
     implementation 'com.google.android.material:material:1.9.0'
 
