@@ -20,9 +20,8 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragmentView(menuNaviItem: MenuItem) {
         val layoutFragment: Any = when (menuNaviItem.itemId) {
             R.id.romSection -> RomSelectionFragment.getInstance()
-            R.id.saveManager -> SaveManagerFragment.getInstance()
+            R.id.statistics -> StatisticsFragment.getInstance()
             R.id.gallery -> GalleryFragment.getInstance()
-            R.id.logMessages -> LogFragment.getInstance()
             else -> { }
         }
 

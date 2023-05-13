@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.SaveManagerFragment"
+    tools:context=".ui.StatisticsFragment"
     >
 
 
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
 
 
-        android:text="Save Manager"
+        android:text="Statistics"
         android:layout_gravity="center"
         tools:ignore="HardcodedText" />
 

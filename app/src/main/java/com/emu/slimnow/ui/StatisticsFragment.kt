@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.emu.slimnow.R
 
-class SaveManagerFragment : Fragment() {
+class StatisticsFragment : Fragment() {
     companion object {
-        fun getInstance() = SaveManagerFragment()
+        fun getInstance() = StatisticsFragment()
     }
 
     override fun onCreateView(
@@ -17,6 +17,6 @@ class SaveManagerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_savemanager, container, false)
+        return inflater.inflate(R.layout.fragment_statistics, container, false)
     }
 }

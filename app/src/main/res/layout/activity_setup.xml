@@ -81,7 +81,7 @@
             <RelativeLayout
                 android:id="@+id/selectRootDirectory"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="52dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:clickable="true"
@@ -89,20 +89,44 @@
                 tools:ignore="TextSizeCheck">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/selectRootTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setup_frame_root"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/selectRootCheck"
+                    />
 
                 <TextView
+                    android:id="@+id/selectRootSummary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
+                    android:layout_marginStart="8dp"
                     android:text="@string/setup_frame_root_summary"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+
+                    android:layout_toEndOf="@+id/selectRootCheck"
+                    />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/selectRootCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/selectRootSummary"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center"
+                    android:clickable="false"
+
+                    app:checkedState="unchecked"
+                    />
             </RelativeLayout>
+
         </LinearLayout>
 
     </ScrollView>

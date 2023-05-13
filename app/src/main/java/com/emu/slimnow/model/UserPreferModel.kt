@@ -10,6 +10,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
+data class PreferEntryData(
+    var boolValue: Boolean = false,
+    var textValue: String = "")
+
+enum class PreferList {
+    PREFER_ROOT_STORAGE,
+    PREFER_SETUP_IS_FINISHED
+}
+
 class UserPreferModel(application: Application) : AndroidViewModel(application) {
 
     private val context by lazy { application.applicationContext }
@@ -17,11 +26,14 @@ class UserPreferModel(application: Application) : AndroidViewModel(application) 
     private val preferReadable: Flow<UserPrefer> = context.userPrefer.data
     val preferStorage = preferReadable.asLiveData()
 
-    fun setupIsFinished(isFinished: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+    fun setPreferData(value: PreferEntryData, pl: PreferList) = viewModelScope.launch(Dispatchers.IO) {
         context.userPrefer.updateData { user ->
-            user.toBuilder()
-                .setHasConfigured(isFinished)
-                .build()
+            val builder = user.toBuilder()
+            when (pl) {
+                PreferList.PREFER_ROOT_STORAGE -> builder.rootDirStorage = value.textValue
+                PreferList.PREFER_SETUP_IS_FINISHED -> builder.hasConfigured = value.boolValue
+            }
+            builder.build()
         }
     }
 
