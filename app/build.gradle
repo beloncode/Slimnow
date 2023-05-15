@@ -1,36 +1,32 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
 
-    id 'com.google.protobuf'
+    id "com.google.protobuf"
 }
 
 android {
-    namespace 'com.emu.slimnow'
+    namespace "com.emu.slimnow"
     compileSdk 33
 
     splits {
         abi {
             enable true
             reset()
-            exclude 'x86, x86_64'
+            exclude "x86, x86_64"
             //noinspection ChromeOsAbiSupport
-            include 'arm64-v8a'
+            include "arm64-v8a"
         }
     }
 
     defaultConfig {
-        applicationId 'com.emu.slimnow'
+        applicationId "com.emu.slimnow"
         minSdk 33
         targetSdk 33
         versionCode 1
-        versionName '0.1.0'
+        versionName "0.1.0"
 
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        externalNativeBuild {
-            cmake {
-            }
-        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -40,11 +36,15 @@ android {
             shrinkResources true
 
             proguardFiles getDefaultProguardFile(
-                    'proguard-android-optimize.txt'),
-                    'proguard-rules.pro'
+                    "proguard-android-optimize.txt"), "proguard-rules.pro"
 
             // Must change later
             signingConfig signingConfigs.debug
+            externalNativeBuild {
+                cmake {
+                    arguments "-DCMAKE_BUILD_TYPE=Release"
+                }
+            }
         }
     }
     compileOptions {
@@ -52,12 +52,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
     }
     externalNativeBuild {
         cmake {
-            path file('CMakeLists.txt')
-            version '3.22.1'
+            path file("CMakeLists.txt")
+            version "3.22.1"
         }
     }
     buildFeatures {
@@ -67,13 +67,13 @@ android {
     // Configuring the proto buffer from DataStore system
     protobuf {
         protoc {
-            artifact = 'com.google.protobuf:protoc:3.21.12'
+            artifact = "com.google.protobuf:protoc:3.21.12"
         }
         // Generates the kotlin Protobuf-lite code for the Protobufs in this project
         generateProtoTasks {
             all().forEach { task ->
                 task.builtins {
-                    java { option 'lite' }
+                    java { option "lite" }
                 }
             }
         }
@@ -81,24 +81,24 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.0'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.core:core-splashscreen:1.0.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.preference:preference-ktx:1.2.0"
+    implementation "androidx.core:core-splashscreen:1.0.1"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
     // Proton DataStore
-    implementation 'androidx.datastore:datastore:1.0.0'
-    implementation 'com.google.protobuf:protobuf-kotlin-lite:3.21.5'
+    implementation "androidx.datastore:datastore:1.0.0"
+    implementation "com.google.protobuf:protobuf-kotlin-lite:3.21.5"
 
     // Extensions to handler flow lifecycles within view models
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
 
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation "com.google.android.material:material:1.9.0"
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "junit:junit:4.13.2"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
 }

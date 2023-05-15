@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "SlimNow"
-include ':app'
+include ":app"
