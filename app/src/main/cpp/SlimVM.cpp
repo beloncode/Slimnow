@@ -1,10 +1,15 @@
-#include <jni.h>
+// This source code is part of SlimNow project
+#include "SlimVM.h"
 
-// Called from JNI native libraries loader, after load our library!
-// We can initialize everything here before the application ends up it's Splash Screen
-__attribute__((visibility("default"))) extern "C" jint
-JNI_OnLoad([[maybe_unused]] JavaVM* vm, [[maybe_unused]] void* reserved) {
-    const auto jniVersion{JNI_VERSION_1_6};
-    return jniVersion;
+namespace Slim {
+    [[maybe_unused]] std::unique_ptr<VirtualMachine> g_psxMachine{};
+
+    VirtualMachine::VirtualMachine() {
+        m_cuteEE = std::make_shared<ee::EmotionR5900>();
+
+        m_cuteEE->resetCPU();
+    }
 }
+
+
 

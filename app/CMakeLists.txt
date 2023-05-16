@@ -12,7 +12,15 @@ check_ipo_supported(RESULT supported OUTPUT error)
 
 add_library(slim MODULE)
 target_sources(slim PRIVATE
-        "${SLIMCORE_DIR}/SlimVM.cpp")
+        "${SLIMCORE_DIR}/SlimVM.cpp"
+
+        # Emotion Engine related source files
+        "${SLIMCORE_DIR}/ee/MIPSvi.cpp"
+
+        # Emulator core marshalling and layers communication within/or between JVM
+        "${SLIMCORE_DIR}/JNInterface.cpp"
+
+        )
 
 target_compile_options(slim PRIVATE
         "-fvisibility=hidden;-Wall;-Werror;-Wno-unused-command-line-argument"
