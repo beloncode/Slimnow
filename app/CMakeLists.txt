@@ -16,6 +16,7 @@ target_sources(slim PRIVATE
 
         # Emotion Engine related source files
         "${SLIMCORE_DIR}/ee/MIPSvi.cpp"
+        "${SLIMCORE_DIR}/ee/COP0.cpp"
 
         # Emulator core marshalling and layers communication within/or between JVM
         "${SLIMCORE_DIR}/JNInterface.cpp"

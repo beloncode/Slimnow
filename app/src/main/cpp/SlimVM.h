@@ -20,7 +20,7 @@ namespace Slim {
         // Systems being emulated by our Virtual Machine
 
         // A cute EE, yey, it's CUTE, for the EE (only) -> YOU can't get me down, your pile of dirt!
-        std::shared_ptr<ee::EmotionR5900> m_cuteEE;
+        std::shared_ptr<ee::CentralProcessor> m_cuteEE;
     };
 
     [[maybe_unused]] extern std::unique_ptr<VirtualMachine> g_psxMachine;

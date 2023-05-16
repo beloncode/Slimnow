@@ -5,9 +5,9 @@ namespace Slim {
     [[maybe_unused]] std::unique_ptr<VirtualMachine> g_psxMachine{};
 
     VirtualMachine::VirtualMachine() {
-        m_cuteEE = std::make_shared<ee::EmotionR5900>();
+        m_cuteEE = std::make_shared<ee::CentralProcessor>();
 
-        m_cuteEE->resetCPU();
+        m_cuteEE->resetSystem();
     }
 }
 
