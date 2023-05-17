@@ -20,16 +20,19 @@ target_sources(slim PRIVATE
 
         # Emulator core marshalling and layers communication within/or between JVM
         "${SLIMCORE_DIR}/JNInterface.cpp"
+        "${SLIMCORE_DIR}/Executor.cpp"
 
         )
 
+# -fsanitize-minimal-runtime It's suitable do use in a release build, but for performance reasons,
+# we will only use inside of debug build
 target_compile_options(slim PRIVATE
         "-fvisibility=hidden;-Wall;-Werror;-Wno-unused-command-line-argument"
-        "$<$<CONFIG:RELEASE>:-O3;-fsanitize-minimal-runtime;-fno-stack-protector>"
-        "$<$<CONFIG:DEBUG>:-O0;-g3;-glldb;-fsanitize=undefined;-fstack-protector-strong>")
+        "$<$<CONFIG:RELEASE>:-O3;-fno-stack-protector;-fdata-sections;-ffunction-sections>"
+        "$<$<CONFIG:DEBUG>:-O0;-g3;-glldb;-fsanitize-minimal-runtime;-fstack-protector-strong>")
 
 target_link_options(slim PRIVATE "-rdynamic"
-        "$<$<CONFIG:Release>:-s>")
+        "$<$<CONFIG:Release>:-s;-Wl,--gc-sections>")
 
 if(supported)
     set_property(TARGET slim PROPERTY INTERPROCEDURAL_OPTIMIZATION True)
