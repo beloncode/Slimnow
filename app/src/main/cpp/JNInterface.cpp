@@ -1,8 +1,8 @@
 // This source code is part of SlimNow project
 #include <jni.h>
 
-#include "SlimVM.h"
-#include "Executor.h"
+#include <SlimVM.h>
+#include <Executor.h>
 
 namespace Slim::Unordered {
     [[maybe_unused]] auto psxVMExist{false};

@@ -4,9 +4,7 @@
 #include <memory>
 #include <cstring>
 
-#include "ee/EESoc.h"
-
-using u8 = std::uint8_t;
+#include <ee/EESoc.h>
 
 namespace Slim {
     class VirtualMachine {

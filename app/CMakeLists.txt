@@ -10,6 +10,12 @@ set(SLIMCORE_DIR "${CMAKE_SOURCE_DIR}/src/main/cpp")
 include(CheckIPOSupported)
 check_ipo_supported(RESULT supported OUTPUT error)
 
+# -fsanitize-minimal-runtime It's suitable to use in a "release" build, but for performance reasons,
+# we will only use inside of "debug" based builds
+set(CMAKE_CXX_FLAGS "-fvisibility=hidden -Wall -Werror -Wno-unused-command-line-argument")
+set(CMAKE_CXX_FLAGS_RELEASE "-Ofast -fno-stack-protector -fdata-sections -ffunction-sections -flto=full")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3 -glldb -fsanitize-minimal-runtime -fno-omit-frame-pointer -fstack-protector-strong")
+
 add_library(slim MODULE)
 add_subdirectory("libraries/fmt" EXCLUDE_FROM_ALL)
 
@@ -25,19 +31,13 @@ target_sources(slim PRIVATE
         "${SLIMCORE_DIR}/Executor.cpp"
 
         )
-# -fsanitize-minimal-runtime It's suitable do use in a release build, but for performance reasons,
-# we will only use inside of debug build
-target_compile_options(slim PRIVATE
-        "-fvisibility=hidden;-Wall;-Werror;-Wno-unused-command-line-argument"
-        "$<$<CONFIG:RELEASE>:-Ofast;-fno-stack-protector;-fdata-sections;-ffunction-sections>"
-        "$<$<CONFIG:DEBUG>:-O0;-g3;-glldb;-fsanitize-minimal-runtime;-fstack-protector-strong>")
+target_compile_options(slim PRIVATE "$<$<CONFIG:RELEASE>:>" "$<$<CONFIG:DEBUG>:>")
+target_link_libraries(slim android fmt::fmt)
 
-target_link_options(slim PRIVATE "-rdynamic"
-        "$<$<CONFIG:Release>:-s;-Wl,--gc-sections>")
+target_include_directories(slim PRIVATE ${SLIMCORE_DIR})
+target_link_options(slim PRIVATE "-rdynamic" "$<$<CONFIG:Release>:-s;-Wl,--gc-sections>")
 
 if(supported)
     set_property(TARGET slim PROPERTY INTERPROCEDURAL_OPTIMIZATION True)
 endif()
 
-
-target_link_libraries(slim android fmt::fmt)

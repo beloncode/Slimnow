@@ -1,13 +1,9 @@
 #pragma once
 
-#include <cstdint>
-#include <arm_neon.h>
+#include <core/Base.h>
 
 namespace Slim::ee {
-
-    using register32 = std::int32_t;
-    using linear128 = int8x8x2_t;
-    static_assert(sizeof(linear128) == 16, "linear128 must be a 128 bit wide type");
+    static_assert(sizeof(u128) == 16, "Size of u128 must be a 128bits or/and 16bytes field value");
 
     class CoreR5900 {
         // Count of registers inside of our MIPS
@@ -19,8 +15,8 @@ namespace Slim::ee {
         ~CoreR5900();
 
     private:
-        [[maybe_unused]] register32* m_GPR;
-        [[maybe_unused]] linear128* m_linearRegisters;
+        [[maybe_unused]] u32* m_GPR;
+        [[maybe_unused]] u128* m_linearRegisters;
 
     };
 }

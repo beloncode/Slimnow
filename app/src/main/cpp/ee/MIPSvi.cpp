@@ -1,5 +1,4 @@
-#include "EESoc.h"
-
+#include <ee/EESoc.h>
 
 namespace Slim::ee {
 

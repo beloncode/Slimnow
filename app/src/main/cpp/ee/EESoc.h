@@ -1,5 +1,5 @@
 
-#include "COP0Super.h"
+#include <ee/COP0Super.h>
 
 #pragma once
 
