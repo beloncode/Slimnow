@@ -11,6 +11,8 @@ include(CheckIPOSupported)
 check_ipo_supported(RESULT supported OUTPUT error)
 
 add_library(slim MODULE)
+add_subdirectory("libraries/fmt" EXCLUDE_FROM_ALL)
+
 target_sources(slim PRIVATE
         "${SLIMCORE_DIR}/SlimVM.cpp"
 
@@ -23,12 +25,11 @@ target_sources(slim PRIVATE
         "${SLIMCORE_DIR}/Executor.cpp"
 
         )
-
 # -fsanitize-minimal-runtime It's suitable do use in a release build, but for performance reasons,
 # we will only use inside of debug build
 target_compile_options(slim PRIVATE
         "-fvisibility=hidden;-Wall;-Werror;-Wno-unused-command-line-argument"
-        "$<$<CONFIG:RELEASE>:-O3;-fno-stack-protector;-fdata-sections;-ffunction-sections>"
+        "$<$<CONFIG:RELEASE>:-Ofast;-fno-stack-protector;-fdata-sections;-ffunction-sections>"
         "$<$<CONFIG:DEBUG>:-O0;-g3;-glldb;-fsanitize-minimal-runtime;-fstack-protector-strong>")
 
 target_link_options(slim PRIVATE "-rdynamic"
@@ -39,4 +40,4 @@ if(supported)
 endif()
 
 
-target_link_libraries(slim android)
+target_link_libraries(slim android fmt::fmt)

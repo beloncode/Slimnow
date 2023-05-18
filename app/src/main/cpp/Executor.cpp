@@ -1,5 +1,5 @@
+#include <fmt/format.h>
 #include "Executor.h"
-
 
 namespace Slim::Thread {
     static thread_local pthread_key_t workerKey;
@@ -36,10 +36,10 @@ namespace Slim::Thread {
 
     [[noreturn]] void UnorderedExecutor::workerRoutine(WorkerContext& worker,
                                                        std::shared_ptr<ExecutorShared>& shared) {
-        char nativeName[16];
-        snprintf(nativeName, sizeof(nativeName), "Worker: %d", worker.thNumberId);
+        auto nativeName = fmt::memory_buffer();
+        fmt::format_to(std::back_inserter(nativeName), "Worker: {}", worker.thNumberId);
 
-        pthread_setname_np(pthread_self(), nativeName);
+        pthread_setname_np(pthread_self(), nativeName.data());
 
         // Our worker will wait until a run signal is delivery
         std::unique_lock<std::mutex> workerGuard(worker.wMutex);
