@@ -1,7 +1,7 @@
 // This source code is part of SlimNow project
-#include "SlimVM.h"
+#include <slim_vm.h>
 
-namespace Slim {
+namespace slim {
     [[maybe_unused]] std::unique_ptr<VirtualMachine> g_psxMachine{};
 
     VirtualMachine::VirtualMachine() {

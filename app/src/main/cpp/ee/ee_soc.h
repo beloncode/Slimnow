@@ -1,16 +1,16 @@
-
-#include <ee/COP0Super.h>
+// This source code is part of SlimNow project
+#include <ee/COP0_super.h>
 
 #pragma once
 
 // Reset System Result Code
-namespace Slim {
+namespace slim {
     enum ResetState {
         RsrFullyReset = 10
     };
 }
 
-namespace Slim::ee {
+namespace slim::ee {
     // Emotion Engine consist of eight separate pieces of an elegant and dedicated hardware,
     // everything embed in one (not little :0) SOC!
     class CentralProcessor {

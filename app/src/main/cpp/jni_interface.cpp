@@ -1,10 +1,10 @@
 // This source code is part of SlimNow project
 #include <jni.h>
 
-#include <SlimVM.h>
-#include <Executor.h>
+#include <slim_vm.h>
+#include <tasks/executor.h>
 
-namespace Slim::Unordered {
+namespace slim::Unordered {
     [[maybe_unused]] auto psxVMExist{false};
 
     void createPSXVM([[maybe_unused]] JavaVM* vm) {
@@ -19,12 +19,12 @@ namespace Slim::Unordered {
 // We can initialize everything here before the application ends up it's Splash Screen
 __attribute__((visibility("default"))) extern "C" jint
 JNI_OnLoad([[maybe_unused]] JavaVM* vm, [[maybe_unused]] void* reserved) {
-    using namespace Slim;
+    using namespace slim;
     const auto jniVersion{JNI_VERSION_1_6};
 
     // Creating our emulator's virtual machine instance while the app is loading!
-    Thread::g_taskSolver = std::make_unique<Thread::UnorderedExecutor>(vm);
-    Thread::g_taskSolver->scheduleTask(Unordered::createPSXVM);
+    tasks::g_taskSolver = std::make_unique<tasks::UnorderedExecutor>(vm);
+    tasks::g_taskSolver->scheduleTask(Unordered::createPSXVM);
 
     return jniVersion;
 }

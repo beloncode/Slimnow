@@ -1,8 +1,10 @@
+// This source code is part of SlimNow project
+
 #include <cstring>
 
-#include <ee/COP0Super.h>
+#include <ee/COP0_super.h>
 
-namespace Slim::ee {
+namespace slim::ee {
 
     CoreR5900::CoreR5900() {
         // Cleaning all registers states, there's no need to doing this, but it's good for maintainer

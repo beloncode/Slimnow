@@ -1,13 +1,16 @@
+// This source code is part of SlimNow project
 #pragma once
 
 #include <thread>
 #include <array>
 #include <vector>
+#include <random>
 #include <future>
 
 #include <jni.h>
+#include <sched.h>
 
-namespace Slim::Thread {
+namespace slim::tasks {
     class UnorderedExecutor {
         using u8 = std::uint8_t;
         using task = std::function<void(JavaVM* virtualMachine)>;
@@ -27,12 +30,30 @@ namespace Slim::Thread {
 
         class WorkerTask {
         public:
-            WorkerTask() = default;
-            WorkerTask(WorkerTask&& worker) {}
+            WorkerTask() {
+                static std::random_device dev;
+                static std::mt19937 rng(dev());
+                static std::uniform_int_distribution<std::mt19937::result_type> distAlgo(1, UINT_MAX);
+
+                m_rndValue = distAlgo(dev);
+                m_crCore = sched_getcpu();
+            }
+            // Can't copy or move this task object
+            WorkerTask(WorkerTask&& worker) = delete;
+            WorkerTask(WorkerTask& worker) = delete;
 
             [[maybe_unused]] bool m_finished{};
             std::mutex m_taskMutex;
             std::condition_variable m_taskCond;
+
+            auto operator==(const WorkerTask&& cmpTask) {
+                return m_rndValue == cmpTask.m_rndValue &&
+                    m_crCore == cmpTask.m_crCore;
+            }
+            // A random value to help with task search
+            uint m_rndValue;
+            // Determine the core where this task was created at
+            uint m_crCore;
             task m_method{};
         };
 
@@ -42,7 +63,7 @@ namespace Slim::Thread {
             std::condition_variable m_exeCond;
             std::mutex m_exeMutex;
 
-            std::vector<WorkerTask> m_tasks;
+            std::vector<std::unique_ptr<WorkerTask>> m_tasks;
             JavaVM* m_sharedVM;
             uint m_running;
             uint m_waiting;

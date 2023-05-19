@@ -4,9 +4,9 @@
 #include <memory>
 #include <cstring>
 
-#include <ee/EESoc.h>
+#include <ee/ee_soc.h>
 
-namespace Slim {
+namespace slim {
     class VirtualMachine {
         static constexpr auto DESIRED_FPS_BY_DEFAULT{60};
 

@@ -1,8 +1,8 @@
+// This source code is part of SlimNow project
 #include <fmt/format.h>
+#include <tasks/executor.h>
 
-#include <Executor.h>
-
-namespace Slim::Thread {
+namespace slim::tasks {
     static thread_local pthread_key_t workerKey;
     static thread_local auto hasAttached{false};
 
@@ -12,32 +12,33 @@ namespace Slim::Thread {
                                             std::shared_ptr<ExecutorShared>& shared) {
         std::unique_lock<std::mutex> sharedGuard(shared->m_exeMutex);
 
-        if (worker.workerState == WorkerContext::Stopped) {
-            pthread_exit({});
-        }
+        if (worker.workerState == WorkerContext::Stopped)
+            pthread_exit(nullptr);
 
         // We're waiting for a condition
         shared->m_waiting++;
         // Waiting for a task comes to execute
         shared->m_exeCond.wait(sharedGuard, [&shared]() {
-            auto& tasks{shared->m_tasks};
+            const auto& tasks{shared->m_tasks};
             return !tasks.empty();
         });
         shared->m_waiting--;
 
-        auto& task{shared->m_tasks.back()};
-        shared->m_tasks.pop_back();
+        auto& taskList{shared->m_tasks};
+        auto taskSolver{std::move(taskList.back())};
+        taskList.pop_back();
+
+        // It's known the time that the method will run, so we needed to release the lock
+        // before continues
         sharedGuard.unlock();
 
-        // It's doesn't know the time that the method will run, so we needed to release the lock
-        // before continues
-        task.m_method(shared->m_sharedVM);
-        task.m_finished = true;
+        taskSolver->m_method(shared->m_sharedVM);
+        taskSolver->m_finished = true;
     }
 
     [[noreturn]] void UnorderedExecutor::workerRoutine(WorkerContext& worker,
                                                        std::shared_ptr<ExecutorShared>& shared) {
-        auto nativeName = fmt::memory_buffer();
+        auto nativeName{fmt::memory_buffer()};
         fmt::format_to(std::back_inserter(nativeName), "Worker: {}", worker.thNumberId);
 
         pthread_setname_np(pthread_self(), nativeName.data());
@@ -59,7 +60,9 @@ namespace Slim::Thread {
         worker.workerState = WorkerContext::Running;
         shared->m_running++;
 
-        while (true) { workerInnerLoop(worker, shared); }
+        while (true)
+            workerInnerLoop(worker, shared);
+
     }
 
     UnorderedExecutor::UnorderedExecutor(JavaVM *vMachine) {
@@ -125,8 +128,10 @@ namespace Slim::Thread {
         auto& tasks{m_shared->m_tasks};
 
         std::unique_lock<std::mutex> global(m_shared->m_exeMutex);
-        auto& shTask{tasks.emplace_back()};
-        shTask.m_method = std::move(method);
+        auto sharedTask{std::make_unique<WorkerTask>()};
+
+        sharedTask->m_method = std::move(method);
+        tasks.push_back(std::move(sharedTask));
     }
 
 }

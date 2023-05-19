@@ -1,8 +1,9 @@
+// This source code is part of SlimNow project
 #pragma once
 
-#include <core/Base.h>
+#include <core/base.h>
 
-namespace Slim::ee {
+namespace slim::ee {
     static_assert(sizeof(u128) == 16, "Size of u128 must be a 128bits or/and 16bytes field value");
 
     class CoreR5900 {

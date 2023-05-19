@@ -1,6 +1,7 @@
-#include <ee/EESoc.h>
+// This source code is part of SlimNow project
+#include <ee/ee_soc.h>
 
-namespace Slim::ee {
+namespace slim::ee {
 
     CentralProcessor::CentralProcessor() :
         m_COP0() {
