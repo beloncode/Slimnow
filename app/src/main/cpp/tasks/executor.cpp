@@ -14,16 +14,15 @@ namespace slim::tasks {
                                             std::shared_ptr<ExecutorShared>& shared) {
         std::unique_lock<std::mutex> sharedGuard(shared->m_uniqueMutex);
 
-        if (worker.state == WorkerState::Stopped) {
-            shared->m_running--;
-            pthread_exit(nullptr);
-        }
-
         auto waitWorker = [&sharedGuard, &shared, &worker]() {
             shared->m_running--;
             worker.state = WorkerState::Waiting;
 
             auto runWorker = [&shared, &worker]() {
+                if (worker.state == WorkerState::Stopped) {
+                    pthread_exit(nullptr);
+                }
+
                 shared->m_running++;
                 worker.state = WorkerState::Running;
             };
@@ -63,7 +62,7 @@ namespace slim::tasks {
 
         // Our worker will wait until a run signal is delivery
         std::unique_lock<std::mutex> workerGuard(worker.wMutex);
-        auto vm{shared->m_sharedVM};
+        const auto vm{shared->m_sharedVM};
 
         // Attaching our worker thread into our Java Virtual Environment
         if (vm->GetEnv(reinterpret_cast<void **>(&worker.thInterface),
