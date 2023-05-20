@@ -1,6 +1,7 @@
 // This source code is part of SlimNow project
-#include <fmt/format.h>
+
 #include <tasks/executor.h>
+#include <logger.h>
 
 #include <utility>
 
@@ -57,6 +58,7 @@ namespace slim::tasks {
         auto nativeName{fmt::memory_buffer()};
         fmt::format_to(std::back_inserter(nativeName),
                        "Worker: {}", worker.thNumberId);
+        Logger::writeInfo("Worker with id {} has started", worker.thNumberId);
 
         pthread_setname_np(pthread_self(), nativeName.data());
 

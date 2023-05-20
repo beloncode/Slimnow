@@ -3,12 +3,14 @@
 
 #include <slim_vm.h>
 #include <tasks/executor.h>
+#include <logger.h>
 
 namespace slim::Unordered {
     [[maybe_unused]] auto psxVMExist{false};
 
     jobject createPSXVM([[maybe_unused]] JavaVM* vm) {
         pthread_setname_np(pthread_self(), "Spawn PSX-VM");
+        Logger::putsInfo("Spawning PS2 Virtual Machine");
 
         g_psxMachine = std::make_unique<VirtualMachine>();
         psxVMExist = g_psxMachine != nullptr;

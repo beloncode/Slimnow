@@ -21,6 +21,8 @@ add_subdirectory("libraries/fmt" EXCLUDE_FROM_ALL)
 
 target_sources(slim PRIVATE
         "${SLIMCORE_DIR}/slim_vm.cpp"
+        "${SLIMCORE_DIR}/tasks/executor.cpp"
+        "${SLIMCORE_DIR}/logger.cpp"
 
         # Emotion Engine related source files
         "${SLIMCORE_DIR}/ee/MIPS_vi.cpp"
@@ -28,11 +30,11 @@ target_sources(slim PRIVATE
 
         # Emulator core marshalling and layers communication within/or between JVM
         "${SLIMCORE_DIR}/jni_interface.cpp"
-        "${SLIMCORE_DIR}/tasks/executor.cpp"
+
 
         )
 target_compile_options(slim PRIVATE "$<$<CONFIG:RELEASE>:>" "$<$<CONFIG:DEBUG>:>")
-target_link_libraries(slim android fmt::fmt)
+target_link_libraries(slim fmt::fmt log)
 
 target_include_directories(slim PRIVATE ${SLIMCORE_DIR})
 target_link_options(slim PRIVATE "$<$<CONFIG:Release>:-s;-Wl,--gc-sections>" "$<$<CONFIG:DEBUG>:-rdynamic>")
