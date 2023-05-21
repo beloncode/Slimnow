@@ -33,7 +33,7 @@ namespace slim::jvm {
 
         static void onNativeExit(void* JavaVM);
 
-        std::array<WorkerContext, THREADS_MAX_COUNT> m_contextArray;
+        std::array<WorkerContext, threadsMaxCount> m_contextArray;
         std::shared_ptr<ExecutorShared> m_shared;
 
     };

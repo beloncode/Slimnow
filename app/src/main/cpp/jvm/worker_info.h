@@ -16,7 +16,7 @@ namespace slim::jvm {
         std::condition_variable wCond;
         std::mutex wMutex;
     };
-    static constexpr u8 THREADS_MAX_COUNT {8 - 1};
+    static constexpr u8 threadsMaxCount{8 - 1};
 
     class WorkerTask {
     public:
@@ -30,10 +30,10 @@ namespace slim::jvm {
             m_crCore = sched_getcpu();
         }
         // Can't copy or move this task object
-        WorkerTask(WorkerTask &&worker) = delete;
-        WorkerTask(WorkerTask &worker) = delete;
+        WorkerTask(WorkerTask&& worker) = delete;
+        WorkerTask(WorkerTask& worker) = delete;
 
-        auto operator==(const WorkerTask &&cmpTask) {
+        auto operator==(const WorkerTask&& cmpTask) {
         return m_rndValue == cmpTask.m_rndValue &&
                m_crCore == cmpTask.m_crCore;
         }

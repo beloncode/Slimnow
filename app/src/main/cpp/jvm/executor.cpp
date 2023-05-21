@@ -6,9 +6,8 @@
 #include <logger.h>
 
 namespace slim::jvm {
-    static thread_local pthread_key_t workerKey;
-    static thread_local auto hasAttached{false};
-
+    static thread_local pthread_key_t g_workerKey;
+    static thread_local auto g_hasAttached{false};
     std::unique_ptr<UnorderedExecutor> g_taskSolver;
 
     void UnorderedExecutor::workerInnerLoop(WorkerContext& worker,
@@ -47,7 +46,7 @@ namespace slim::jvm {
         // before continues
         sharedGuard.unlock();
         auto solved{taskSolver->m_method(shared->m_sharedVM)};
-        if (taskSolver->m_futureRet != nullptr) {
+        if (!taskSolver->m_futureRet) {
             taskSolver->m_futureRet->set_value(solved);
         }
 
@@ -59,7 +58,6 @@ namespace slim::jvm {
         fmt::format_to(std::back_inserter(nativeName),
                        "Worker: {}", worker.thNumberId);
         Logger::writeInfo("Worker with id {} has started", worker.thNumberId);
-
         pthread_setname_np(pthread_self(), nativeName.data());
 
         // Our worker will wait until a run signal is delivery
@@ -70,11 +68,11 @@ namespace slim::jvm {
         if (vm->GetEnv(reinterpret_cast<void **>(&worker.thInterface),
                        JNI_VERSION_1_6) == JNI_EDETACHED) {
             vm->AttachCurrentThread(&worker.thInterface, nullptr);
-            hasAttached = true;
+            g_hasAttached = true;
         }
 
-        pthread_key_create(&workerKey, onNativeExit);
-        pthread_setspecific(hasAttached, vm);
+        pthread_key_create(&g_workerKey, onNativeExit);
+        pthread_setspecific(g_hasAttached, vm);
 
         while (true) {
             workerInnerLoop(worker, shared);
@@ -82,7 +80,7 @@ namespace slim::jvm {
 
     }
 
-    UnorderedExecutor::UnorderedExecutor(JavaVM *vMachine) {
+    UnorderedExecutor::UnorderedExecutor(JavaVM* vMachine) {
 
         m_shared = std::make_shared<ExecutorShared>(vMachine);
         std::unique_lock<std::mutex> guard(m_shared->m_uniqueMutex);
@@ -113,7 +111,7 @@ namespace slim::jvm {
         vm->DetachCurrentThread();
 
         // If we reach here, we already have a valid pthread key!
-        pthread_key_delete(workerKey);
+        pthread_key_delete(g_workerKey);
     }
 
     void UnorderedExecutor::workerEnable(WorkerContext &context) {

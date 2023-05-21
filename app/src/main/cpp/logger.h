@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <array>
+
 #include <android/log.h>
 #include <fmt/format.h>
 
@@ -16,19 +18,19 @@ namespace slim {
         MsgSeverityVerbose [[maybe_unused]] = ANDROID_LOG_VERBOSE
     };
 
-    class [[maybe_unused]] Logger {
-        static constexpr u8 MESSAGE_BUFFER_SZ{0x44};
+    static constexpr u8 messageBufferSz{0x44};
+    class Logger {
         static constexpr std::string_view tagCard{"SlimNative"};
 
     public:
         template <typename ...T>
         static auto writeMessageBuffer(MessageSeverity sevMsg,
                                        fmt::format_string<T...> format, T &&... args) {
-            auto mimicFile{fmemopen(m_uniqueBuffer, sizeof(m_uniqueBuffer), "w")};
+            auto mimicFile{fmemopen(m_uniqueBuffer.data(), m_uniqueBuffer.size(), "w")};
             fmt::print(mimicFile, format, args...);
             fclose(mimicFile);
 
-            return __android_log_write(sevMsg, tagCard.data(), m_uniqueBuffer);
+            return __android_log_write(sevMsg, tagCard.data(), m_uniqueBuffer.data());
         }
 
         template <typename ...T>
@@ -46,7 +48,7 @@ namespace slim {
         }
 
     private:
-        static thread_local char m_uniqueBuffer[MESSAGE_BUFFER_SZ];
+        static thread_local std::array<char, messageBufferSz> m_uniqueBuffer;
     };
 }
 

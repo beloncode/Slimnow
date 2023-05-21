@@ -8,8 +8,8 @@ namespace slim::ee {
 
     class CoreR5900 {
         // Count of registers inside of our MIPS
-        static constexpr auto MIPS_GPR_COUNT{32};
-        static constexpr auto MIPS_SCALAR_COUNT{32};
+        static constexpr auto mipsGprCount{32};
+        static constexpr auto mipsScalarCount{32};
 
     public:
         CoreR5900();

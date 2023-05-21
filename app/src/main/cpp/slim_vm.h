@@ -8,12 +8,12 @@
 
 namespace slim {
     class VirtualMachine {
-        static constexpr auto DESIRED_FPS_BY_DEFAULT{60};
+        static constexpr auto desiredFpsByDefault{60};
 
     public:
         VirtualMachine();
     private:
-        [[maybe_unused]] u8 m_desiredFPS{DESIRED_FPS_BY_DEFAULT};
+        [[maybe_unused]] u8 m_desiredFPS{desiredFpsByDefault};
 
         // Systems being emulated by our Virtual Machine
 
