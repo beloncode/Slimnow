@@ -1,3 +1,4 @@
+// This source code is part of SlimNow project
 #pragma once
 
 #include <thread>
@@ -9,7 +10,7 @@
 #include <jni.h>
 #include <sched.h>
 
-namespace slim::tasks {
+namespace slim::jvm {
 
     using u8 = std::uint8_t;
     using task = std::function<jobject(JavaVM* virtualMachine)>;

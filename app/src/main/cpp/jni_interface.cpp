@@ -2,7 +2,7 @@
 #include <jni.h>
 
 #include <slim_vm.h>
-#include <tasks/executor.h>
+#include <jvm/executor.h>
 #include <logger.h>
 
 namespace slim::Unordered {
@@ -27,8 +27,8 @@ JNI_OnLoad([[maybe_unused]] JavaVM* vm, [[maybe_unused]] void* reserved) {
     const auto jniVersion{JNI_VERSION_1_6};
 
     // Creating our emulator's virtual machine instance while the app is loading!
-    tasks::g_taskSolver = std::make_unique<tasks::UnorderedExecutor>(vm);
-    tasks::g_taskSolver->pushTask(Unordered::createPSXVM);
+    jvm::g_taskSolver = std::make_unique<jvm::UnorderedExecutor>(vm);
+    jvm::g_taskSolver->pushTask(Unordered::createPSXVM);
 
     return jniVersion;
 }

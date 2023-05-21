@@ -21,7 +21,7 @@ add_subdirectory("libraries/fmt" EXCLUDE_FROM_ALL)
 
 target_sources(slim PRIVATE
         "${SLIMCORE_DIR}/slim_vm.cpp"
-        "${SLIMCORE_DIR}/tasks/executor.cpp"
+        "${SLIMCORE_DIR}/jvm/executor.cpp"
         "${SLIMCORE_DIR}/logger.cpp"
 
         # Emotion Engine related source files

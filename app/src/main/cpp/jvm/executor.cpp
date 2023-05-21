@@ -1,11 +1,11 @@
 // This source code is part of SlimNow project
 
-#include <tasks/executor.h>
-#include <logger.h>
-
 #include <utility>
 
-namespace slim::tasks {
+#include <jvm/executor.h>
+#include <logger.h>
+
+namespace slim::jvm {
     static thread_local pthread_key_t workerKey;
     static thread_local auto hasAttached{false};
 

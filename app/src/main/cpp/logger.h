@@ -1,3 +1,5 @@
+// This source code is part of SlimNow project
+
 #pragma once
 
 #include <android/log.h>

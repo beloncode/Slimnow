@@ -1,9 +1,9 @@
 // This source code is part of SlimNow project
 #pragma once
 
-#include <tasks/worker_info.h>
+#include <jvm/worker_info.h>
 
-namespace slim::tasks {
+namespace slim::jvm {
     class UnorderedExecutor {
 
         class ExecutorShared {

@@ -1,8 +1,10 @@
+
+// This source code is part of SlimNow project
 #pragma once
 
-#include <tasks/helper.h>
+#include <jvm/helper.h>
 
-namespace slim::tasks {
+namespace slim::jvm {
 
     struct WorkerContext {
         u8 thNumberId;
