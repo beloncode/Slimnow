@@ -21,6 +21,6 @@ namespace slim {
         std::shared_ptr<ee::CentralProcessor> m_cuteEE;
     };
 
-    [[maybe_unused]] extern std::unique_ptr<VirtualMachine> g_psxMachine;
+    extern std::unique_ptr<VirtualMachine> g_psxMachine;
 }
 

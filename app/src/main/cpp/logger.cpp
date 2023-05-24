@@ -3,6 +3,6 @@
 #include <logger.h>
 
 namespace slim {
-   thread_local std::array<char, messageBufferSz> Logger::m_uniqueBuffer;
+   thread_local std::array<char, messageBufferSz> Logger::m_msgBuffer;
 
 }

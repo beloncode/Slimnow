@@ -45,8 +45,8 @@ namespace slim::jvm {
         // It's unknown the time that the method will run, so we needed to release the lock
         // before continues
         sharedGuard.unlock();
-        auto solved{taskSolver->m_method(shared->m_sharedVM)};
-        if (!taskSolver->m_futureRet) {
+        const auto solved{taskSolver->m_method(shared->m_sharedVM)};
+        if (taskSolver->m_futureRet != nullptr) {
             taskSolver->m_futureRet->set_value(solved);
         }
 
@@ -57,7 +57,7 @@ namespace slim::jvm {
         auto nativeName{fmt::memory_buffer()};
         fmt::format_to(std::back_inserter(nativeName),
                        "Worker: {}", worker.thNumberId);
-        Logger::writeInfo("Worker with id {} has started", worker.thNumberId);
+        Logger::fmtInfo("Worker with id {} has started", worker.thNumberId);
         pthread_setname_np(pthread_self(), nativeName.data());
 
         // Our worker will wait until a run signal is delivery
@@ -65,7 +65,7 @@ namespace slim::jvm {
         const auto vm{shared->m_sharedVM};
 
         // Attaching our worker thread into our Java Virtual Environment
-        if (vm->GetEnv(reinterpret_cast<void **>(&worker.thInterface),
+        if (vm->GetEnv(reinterpret_cast<void** >(&worker.thInterface),
                        JNI_VERSION_1_6) == JNI_EDETACHED) {
             vm->AttachCurrentThread(&worker.thInterface, nullptr);
             g_hasAttached = true;
@@ -100,21 +100,21 @@ namespace slim::jvm {
     UnorderedExecutor::~UnorderedExecutor() {
         std::unique_lock<std::mutex> guard(m_shared->m_uniqueMutex);
 
-        for (auto &workerContext: m_contextArray) {
+        for (auto& workerContext: m_contextArray) {
             workerDisable(workerContext);
         }
 
     }
 
     void UnorderedExecutor::onNativeExit(void* javaVM) {
-        auto vm{reinterpret_cast<JavaVM *>(javaVM)};
+        auto vm{reinterpret_cast<JavaVM* >(javaVM)};
         vm->DetachCurrentThread();
 
         // If we reach here, we already have a valid pthread key!
         pthread_key_delete(g_workerKey);
     }
 
-    void UnorderedExecutor::workerEnable(WorkerContext &context) {
+    void UnorderedExecutor::workerEnable(WorkerContext& context) {
         std::unique_lock<std::mutex> guard(context.wMutex);
 
         context.thHandler = std::thread([&context, this]() {
@@ -130,7 +130,6 @@ namespace slim::jvm {
             return;
         else if (context.state == WorkerState::Running)
             m_shared->m_running--;
-
         context.state = WorkerState::Stopped;
 
         if (context.thHandler.joinable())

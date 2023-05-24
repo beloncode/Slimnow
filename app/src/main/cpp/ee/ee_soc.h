@@ -19,6 +19,6 @@ namespace slim::ee {
         ~CentralProcessor();
         static ResetState resetSystem();
     private:
-        [[maybe_unused]] CoreR5900* m_COP0;
+        CoreR5900* m_COP0;
     };
 }

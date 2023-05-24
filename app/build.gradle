@@ -47,9 +47,10 @@ android {
             }
         }
     }
+    final def coffeeVersion = JavaVersion.VERSION_1_8
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility coffeeVersion
+        targetCompatibility coffeeVersion
     }
     kotlinOptions {
         jvmTarget = "1.8"

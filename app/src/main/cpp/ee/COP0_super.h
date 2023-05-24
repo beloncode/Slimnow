@@ -4,7 +4,7 @@
 #include <core/base.h>
 
 namespace slim::ee {
-    static_assert(sizeof(u128) == 16, "Size of u128 must be a 128bits or/and 16bytes field value");
+    static_assert(sizeof(u128) == 16, "Size of u128 must be a 128bits or/and with 16 bytes of size");
 
     class CoreR5900 {
         // Count of registers inside of our MIPS
@@ -16,8 +16,8 @@ namespace slim::ee {
         ~CoreR5900();
 
     private:
-        [[maybe_unused]] u32* m_GPR;
-        [[maybe_unused]] u128* m_linearRegisters;
+        u32* m_GPR;
+        u128* m_linearRegisters;
 
     };
 }
