@@ -16,11 +16,8 @@ namespace slim {
         [[maybe_unused]] u8 m_desiredFPS{desiredFpsByDefault};
 
         // Systems being emulated by our Virtual Machine
-
         // A cute EE, yey, it's CUTE, for the EE (only) -> YOU can't get me down, your pile of dirt!
         std::shared_ptr<ee::CentralProcessor> m_cuteEE;
     };
-
     extern std::unique_ptr<VirtualMachine> g_psxMachine;
 }
-
